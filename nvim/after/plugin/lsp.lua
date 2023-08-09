@@ -7,6 +7,7 @@ lsp.ensure_installed({
     'marksman',
     'html',
     'jsonls',
+    'cssls',
 })
 
 -- Fix Undefined global 'vim'
@@ -20,7 +21,7 @@ lsp.configure('lua_ls', {
 	}
 })
 
-
+-- mapping
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
 local cmp_mappings = lsp.defaults.cmp_mappings({
@@ -28,6 +29,7 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
 	['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
 	['<Tab>'] = cmp.mapping.confirm(),
 })
+-- setup completion
 lsp.setup_nvim_cmp({
 	mapping = cmp_mappings
 })

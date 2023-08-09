@@ -1,6 +1,11 @@
 PATH = "/Users/emmaeilefsen/.local/share/"
+-- colorscheme
+require('emma.base16')
+vim.g.base16_background_transparent = 1
 -- Enable mouse mode
 vim.opt.mouse = 'a'
+-- Enable system clipboard
+vim.opt.clipboard = 'unnamedplus'
 -- indentation
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -36,9 +41,5 @@ vim.opt.timeoutlen = 300
 -- tmp files
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir = os.getenv("XDG_RUNTIME_DIR") .. "/nvim/undodir"
+vim.opt.undodir = os.getenv("XDG_STATE_HOME") .. "/nvim/undodir"
 vim.opt.undofile = true
-
-
-
-
