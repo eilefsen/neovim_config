@@ -1,5 +1,7 @@
 PATH = "/Users/emmaeilefsen/.local/share/"
 
+vim.g.python3_host_prog = "/usr/bin/python3"
+
 -- colorscheme
 require('emma.base16')
 vim.cmd("highlight Normal ctermbg=NONE guibg=NONE")
