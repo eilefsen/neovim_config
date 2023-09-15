@@ -9,7 +9,6 @@ mason_config.setup({
     ensure_installed = {
         'lua_ls',
         'pyright',
-        'ruff_lsp',
     }
 })
 
