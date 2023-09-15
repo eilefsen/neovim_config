@@ -6,9 +6,6 @@ vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 -- Explore
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
--- move selected text up or down
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 -- center cursor
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
@@ -35,3 +32,8 @@ vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
+-- NOPE
+vim.keymap.set("n", "q", '<Nop>')
+vim.keymap.set("n", "q", '<Nop>')
+-- format
+vim.keymap.set("n", "<Leader>gf", function() vim.lsp.buf.format({ async = true }) end, { buffer = bufnr })

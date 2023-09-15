@@ -1,69 +1,80 @@
-local lsp = require("lsp-zero")
-lsp.preset("recommended")
+require("neodev").setup({})
 
-lsp.ensure_installed({
-	'rust_analyzer',
-    'lua_ls',
-    'marksman',
-    'html',
-    'jsonls',
-    'cssls',
+local lspconfig = require('lspconfig')
+local lsp_defaults = lspconfig.util.default_config
+local mason = require('mason')
+local mason_config = require('mason-lspconfig')
+mason.setup()
+mason_config.setup({
+    ensure_installed = {
+        'lua_ls',
+        'pyright',
+        'ruff_lsp',
+    }
 })
 
--- Fix Undefined global 'vim'
-lsp.configure('lua_ls', {
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { 'vim' }
-			}
-		}
-	}
+-- Extend default capabilities
+lsp_defaults.capabilities = vim.tbl_deep_extend(
+    'force',
+    lsp_defaults.capabilities,
+    require('cmp_nvim_lsp').default_capabilities()
+)
+-- Automatically setup LSP servers from mason
+mason_config.setup_handlers({
+    function(server_name)
+        lspconfig[server_name].setup({})
+    end,
 })
-
--- mapping
-local cmp = require('cmp')
-local cmp_select = {behavior = cmp.SelectBehavior.Select}
-local cmp_mappings = lsp.defaults.cmp_mappings({
-	['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-	['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-	['<Tab>'] = cmp.mapping.confirm(),
+-- individually configure lua_ls
+lspconfig.lua_ls.setup({
+    settings = {
+        Lua = {
+            completion = {
+                callSnippet = "Replace",
+            },
+            diagnostics = {
+                -- Fix undefined global 'vim'
+                globals = {'vim',}
+            },
+            workspace = {
+					checkThirdParty = false,
+            },
+        }
+    }
 })
--- setup completion
-lsp.setup_nvim_cmp({
-	mapping = cmp_mappings
-})
-
-lsp.set_preferences({
-	suggest_lsp_servers = false,
-	sign_icons = {
-		error = 'E',
-		warn  = 'W',
-		hint  = 'H',
-		info  = 'I'
-	}
-})
-
-lsp.on_attach(function(client, bufnr)
-    -- helper function for setting keymaps
-    lsp.default_keymaps({buffer = bufnr})
-    local nmap = function(keys, func, desc)
-        if desc then
-            desc = 'LSP: ' .. desc
+-- Mappings
+vim.api.nvim_create_autocmd('LspAttach', {
+    desc = 'LSP actions',
+    callback = function()
+        local bufmap = function(mode, lhs, rhs)
+            local opts = {buffer = true}
+            vim.keymap.set(mode, lhs, rhs, opts)
         end
-
-        vim.keymap.set('n', keys, func, { buffer = true, desc = desc })
-    end
-    -- lsp keymaps
-    nmap('<leader>rn', vim.lsp.buf.rename, '[r]e[n]ame')
-    nmap('gd', vim.lsp.buf.definition, '[g]oto [d]efinition')
-
-    -- format
-
-end)
-
-lsp.setup()
-
-vim.diagnostic.config({
-	virtual_text = true
+        -- hover info under cursor
+        bufmap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>')
+        -- jump to definition
+        bufmap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
+        -- jump to declaration
+        bufmap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
+        -- jump to type definition
+        bufmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
+        -- list all implementations
+        bufmap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')
+        -- lists all references 
+        bufmap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
+        -- displays function signature info
+        bufmap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+        -- renames all references to word under cursor
+        bufmap('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>')
+        -- selects code action available at cursor position
+        bufmap('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>')
+        bufmap('x', '<F4>', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
+        -- shows diagnostic in floating window
+        bufmap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<cr>')
+        -- go to previous diagnostic
+        bufmap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
+        -- go to next diagnostic
+        bufmap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
+    end,
 })
+

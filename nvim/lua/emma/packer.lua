@@ -16,58 +16,50 @@ return require('packer').startup(function(use)
 	use ('wbthomason/packer.nvim')
     -- essential basics
 	use('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
-	use('nvim-treesitter/playground')
 	use('tpope/vim-commentary')
 	use('tpope/vim-fugitive')
-    use('RRethy/nvim-base16')
-    -- lsp
-    use {
-        'VonHeikemen/lsp-zero.nvim',
-        branch = 'v1.x',
-        requires = {
-            -- LSP Support
-            {'neovim/nvim-lspconfig'},             -- Required
-            {'williamboman/mason.nvim'},           -- Optional
-            {'williamboman/mason-lspconfig.nvim'}, -- Optional
-
-            -- Autocompletion
-            {'hrsh7th/nvim-cmp'},         -- Required
-            {'hrsh7th/cmp-nvim-lsp'},     -- Required
-            {'hrsh7th/cmp-buffer'},       -- Optional
-            {'hrsh7th/cmp-path'},         -- Optional
-            {'saadparwaiz1/cmp_luasnip'}, -- Optional
-            {'hrsh7th/cmp-nvim-lua'},     -- Optional
-
-            -- Snippets
-            {'L3MON4D3/LuaSnip'},             -- Required
-            {'rafamadriz/friendly-snippets'}, -- Optional
-        }
+    use{'folke/trouble.nvim',
+        requires = {'kyazdani42/nvim-web-devicons'}
     }
+    use('git@github.com:eilefsen/nvim-base16')
+    -- lsp
+    use {'williamboman/mason.nvim'}
+    use {'neovim/nvim-lspconfig'}
+    use {'williamboman/mason-lspconfig.nvim'}
+    use {'folke/neodev.nvim'}
+    -- autocompletion
+    use {'hrsh7th/cmp-nvim-lsp'}
+    use {'hrsh7th/cmp-buffer'}
+    use {'hrsh7th/cmp-path'}
+    use {'hrsh7th/cmp-cmdline'}
+    use {'hrsh7th/cmp-nvim-lua'}
+    use {'hrsh7th/nvim-cmp'}
+    -- Snippets
+    use {'L3MON4D3/LuaSnip'}
+    use {'saadparwaiz1/cmp_luasnip'}
+    use {'rafamadriz/friendly-snippets'}
 
     -- nice to have
-	use('mbbill/undotree')
-    use {
-        "windwp/nvim-autopairs",
+    use {'ibhagwan/smartyank.nvim'}
+    use('mbbill/undotree')
+    use {"windwp/nvim-autopairs",
         config = function() require("nvim-autopairs").setup {} end
     }
-    use {
-        'nvim-lualine/lualine.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    use('lambdalisue/suda.vim')
+    use {'nvim-lualine/lualine.nvim',
+        requires = {'kyazdani42/nvim-web-devicons', opt = true }
     }
-	use {
-		'nvim-telescope/telescope.nvim', tag = '0.1.1',
+	use {'nvim-telescope/telescope.nvim', tag = '0.1.1',
 		requires = {
 			{'nvim-lua/plenary.nvim'},
-			{'nvim-telescope/telescope-ui-select.nvim' } }
+			{'nvim-telescope/telescope-ui-select.nvim'}}
 		}
------------------------- optional
-     -- use {
-     --    "folke/which-key.nvim",
-     --    config = function()
-     --        vim.o.timeout = true
-     --        vim.o.timeoutlen = 300
-     --    end
-     -- }
+
+    -- mini.nvim
+	use {'echasnovski/mini.indentscope', branch = 'stable'}
+	use {'echasnovski/mini.cursorword', branch = 'stable'}
+	use {'echasnovski/mini.surround', branch = 'stable'}
+	use {'echasnovski/mini.move', branch = 'stable'}
 
     if packer_bootstrap then
         require('packer').sync()
