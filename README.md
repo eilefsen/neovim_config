@@ -8,6 +8,8 @@
 
 ## Prerequisite configs
 
+Put this in your .zshenv, or locate any mention of these variables in the config and replace with absolute paths
+
     export XDG_CONFIG_HOME="$HOME/.config"
     export XDG_DATA_HOME="$HOME/.local/share"
     export XDG_CACHE_HOME="$HOME/.cache"
