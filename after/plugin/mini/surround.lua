@@ -26,7 +26,7 @@ surround.setup({
     -- Whether to respect selection type:
     -- - Place surroundings on separate lines in linewise mode.
     -- - Place surroundings on each line in blockwise mode.
-    respect_selection_type = false,
+    respect_selection_type = true,
 
     -- How to search for surrounding (first inside current line, then inside
     -- neighborhood). One of 'cover', 'cover_or_next', 'cover_or_prev',
