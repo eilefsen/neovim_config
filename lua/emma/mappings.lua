@@ -4,8 +4,6 @@ vim.keymap.set("n", "Q", "<nop>")
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
--- Explore
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 -- center cursor
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
