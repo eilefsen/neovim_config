@@ -18,13 +18,14 @@ vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.breakindent = true
 
--- various GUI
+-- various UI
 vim.opt.termguicolors = true
 vim.opt.guicursor = ""
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "screenline"
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
+vim.opt.cmdheight=1
 
 -- line numbers
 vim.opt.nu = true
