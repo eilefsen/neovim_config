@@ -21,12 +21,26 @@ return require('packer').startup(function(use)
     use{'folke/trouble.nvim',
         requires = {'kyazdani42/nvim-web-devicons'}
     }
+    -- theme
     use('git@github.com:eilefsen/nvim-base16')
     -- lsp
-    use {'williamboman/mason.nvim'}
     use {'neovim/nvim-lspconfig'}
-    use {'williamboman/mason-lspconfig.nvim'}
     use {'folke/neodev.nvim'}
+        -- null-ls
+    use {'jose-elias-alvarez/null-ls.nvim',
+        requires = {
+            {'nvim-lua/plenary.nvim'},
+        }
+    }
+        -- mason
+    use {'williamboman/mason.nvim'}
+    use {'williamboman/mason-lspconfig.nvim'}
+    use {'jay-babu/mason-null-ls.nvim',
+        requires = {
+            {'williamboman/mason.nvim'},
+            {'jose-elias-alvarez/null-ls.nvim'},
+        }
+    }
     -- autocompletion
     use {'hrsh7th/cmp-nvim-lsp'}
     use {'hrsh7th/cmp-buffer'}

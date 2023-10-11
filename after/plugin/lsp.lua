@@ -4,11 +4,41 @@ local lspconfig = require('lspconfig')
 local lsp_defaults = lspconfig.util.default_config
 local mason = require('mason')
 local mason_config = require('mason-lspconfig')
+local mason_null_ls = require('mason-null-ls')
+local null_ls = require('null-ls')
+
 mason.setup()
 mason_config.setup({
     ensure_installed = {
         'lua_ls',
         'pyright',
+    }
+})
+mason_null_ls.setup({
+    ensure_installed = {
+        "black",
+    },
+    automatic_installation = true,
+    handlers = {},
+})
+
+-- configure null-ls
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+null_ls.setup({
+	on_attach = function(client, bufnr)
+		if client.supports_method("textDocument/formatting") then
+			vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				group = augroup,
+				buffer = bufnr,
+				callback = function()
+					vim.lsp.buf.format()
+				end,
+			})
+		end
+	end,
+    sources = {
+        null_ls.builtins.formatting.black,
     }
 })
 
@@ -24,6 +54,8 @@ mason_config.setup_handlers({
         lspconfig[server_name].setup({})
     end,
 })
+
+
 -- individually configure lua_ls
 lspconfig.lua_ls.setup({
     settings = {
@@ -69,6 +101,7 @@ lspconfig.pyright.setup({
         },
     },
 })
+
 
 -- Mappings
 vim.api.nvim_create_autocmd('LspAttach', {
