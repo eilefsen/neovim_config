@@ -31,5 +31,3 @@ vim.keymap.set("n", "<C-l>", "<C-w>l")
 -- NOPE
 vim.keymap.set("n", "q", '<Nop>')
 vim.keymap.set("n", "q", '<Nop>')
--- format
-vim.keymap.set("n", "<Leader>f", function() vim.lsp.buf.format({ async = true }) end, { buffer = bufnr })
