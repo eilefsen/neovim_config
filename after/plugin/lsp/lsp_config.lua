@@ -28,5 +28,7 @@ mason_config.setup_handlers({
 
 require('lsp/null_ls')
 require('lsp/lua_ls')
-require('lsp/pyright')
+require('lsp/pyright_lsp')
+require('lsp/ruff_lsp')
+
 require('lsp/lsp_mappings')
